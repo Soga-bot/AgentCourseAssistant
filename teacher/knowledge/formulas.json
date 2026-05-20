@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "subject": "初中数学",
+  "formulas": [
+    {
+      "id": "rational_addition",
+      "name": "有理数加法法则",
+      "latex": "$$a + b = \\begin{cases} |a| + |b|, & \\text{同号取相同符号} \\\\ |a| - |b|, & \\text{异号取绝对值大的符号} \\end{cases}$$",
+      "category": "代数",
+      "grade": "七年级",
+      "description": "同号两数相加，取相同的符号，并把绝对值相加；异号两数相加，取绝对值较大的符号，并用较大的绝对值减去较小的绝对值"
+    },
+    {
+      "id": "quadratic_vertex",
+      "name": "二次函数顶点式",
+      "latex": "$$y = a(x-h)^2 + k$$",
+      "category": "代数",
+      "grade": "九年级",
+      "description": "二次函数的顶点式，顶点坐标为(h, k)"
+    },
+    {
+      "id": "quadratic_general",
+      "name": "二次函数一般式",
+      "latex": "$$y = ax^2 + bx + c$$",
+      "category": "代数",
+      "grade": "九年级",
+      "description": "二次函数的一般式，a≠0"
+    },
+    {
+      "id": "quadratic_formula",
+      "name": "一元二次方程求根公式",
+      "latex": "$$x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$",
+      "category": "代数",
+      "grade": "九年级",
+      "description": "一元二次方程ax²+bx+c=0(a≠0)的求根公式"
+    },
+    {
+      "id": "pythagorean",
+      "name": "勾股定理",
+      "latex": "$$a^2 + b^2 = c^2$$",
+      "category": "几何",
+      "grade": "八年级",
+      "description": "直角三角形两直角边的平方和等于斜边的平方"
+    },
+    {
+      "id": "discriminant",
+      "name": "根的判别式",
+      "latex": "$$\\Delta = b^2 - 4ac$$",
+      "category": "代数",
+      "grade": "九年级",
+      "description": "判别式大于0有两个不等实根，等于0有两个相等实根，小于0无实根"
+    },
+    {
+      "id": "vertex_coordinate",
+      "name": "二次函数顶点坐标公式",
+      "latex": "$$\\left(-\\frac{b}{2a}, \\frac{4ac-b^2}{4a}\\right)$$",
+      "category": "代数",
+      "grade": "九年级",
+      "description": "二次函数y=ax²+bx+c的顶点坐标"
+    },
+    {
+      "id": "power_rules",
+      "name": "幂的运算性质",
+      "latex": "$$a^m \\cdot a^n = a^{m+n}, \\quad (a^m)^n = a^{mn}, \\quad (ab)^n = a^n b^n$$",
+      "category": "代数",
+      "grade": "八年级",
+      "description": "同底数幂相乘，幂的乘方，积的乘方"
+    }
+  ]
+}

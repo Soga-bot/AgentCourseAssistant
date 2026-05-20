@@ -1,0 +1,1219 @@
+<!-- 学生端课程学习页面 -->
+<div class="learning-layout">
+    <!-- 顶部导航 -->
+    <div class="learning-topbar">
+        <button class="btn-back" id="backToCatalog">
+            <span>← 返回目录</span>
+        </button>
+        <div class="chapter-info">
+            <h2 class="chapter-title" id="currentChapterTitle">章节标题</h2>
+            <span class="course-name" id="currentCourseName">课程名称</span>
+        </div>
+        <div class="topbar-actions">
+            <button class="btn-nav" id="prevChapter" title="上一章">
+                <span>← 上一章</span>
+            </button>
+            <button class="btn-nav" id="nextChapter" title="下一章">
+                <span>下一章 →</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 主内容区：左右分栏 -->
+    <div class="learning-main">
+        <!-- 左侧：视频播放区 -->
+        <div class="video-section">
+            <div class="video-container">
+                <video id="videoPlayer" controls preload="metadata" style="width: 100%; height: 100%;">
+                    <source src="" type="video/mp4">
+                    您的浏览器不支持视频播放。
+                </video>
+            </div>
+
+            <!-- 视频控制栏 -->
+            <div class="video-controls">
+                <div class="video-progress">
+                    <div class="chapter-list-dropdown">
+                        <button class="dropdown-btn" id="chapterDropdown">
+                            <span id="currentChapterLabel">选择章节</span>
+                            <span class="arrow">▼</span>
+                        </button>
+                        <div class="dropdown-content" id="chapterDropdownContent">
+                            <!-- 动态加载章节列表 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="video-actions">
+                    <button class="control-btn" id="markCompleted" title="标记为已完成">
+                        <span>✓ 标记完成</span>
+                    </button>
+                    <button class="control-btn" id="downloadNotes" title="下载笔记">
+                        <span>📥 笔记</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 视频笔记区 -->
+            <div class="notes-section">
+                <div class="notes-header">
+                    <h3>学习笔记</h3>
+                    <button class="btn-save-notes" id="saveNotesBtn">保存</button>
+                </div>
+                <textarea id="chapterNotes" class="notes-textarea" placeholder="在这里记录学习笔记..."></textarea>
+            </div>
+        </div>
+
+        <!-- 右侧：AI问答区 -->
+        <div class="ai-section">
+            <div class="ai-header">
+                <div class="ai-title">
+                    <span class="ai-icon">🤖</span>
+                    <h3>AI 学习助手</h3>
+                </div>
+                <div class="ai-status">
+                    <span class="status-dot"></span>
+                    <span class="status-text">在线</span>
+                </div>
+            </div>
+
+            <!-- 聊天消息区 -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- 欢迎消息 -->
+                <div class="message ai-message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p>同学你好！我是你的AI学习助手。</p>
+                        <p>在学习过程中遇到任何问题，都可以随时问我哦～</p>
+                        <p class="quick-questions">
+                            <span class="quick-q-btn" onclick="askQuickQuestion('这个知识点能再详细解释一下吗？')">
+                                💡 详细解释
+                            </span>
+                            <span class="quick-q-btn" onclick="askQuickQuestion('给我出一道相关的练习题')">
+                                📝 出题练习
+                            </span>
+                            <span class="quick-q-btn" onclick="askQuickQuestion('这个知识点的重点是什么？')">
+                                🎯 重点总结
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 输入区 -->
+            <div class="chat-input-area">
+                <div class="input-toolbar">
+                    <button class="toolbar-btn" onclick="insertQuickQuestion('刚才讲的这个概念我没太理解，能用更简单的方式解释一下吗？')" title="请求简化解释">
+                        🔄 重新解释
+                    </button>
+                    <button class="toolbar-btn" onclick="insertQuickQuestion('能举个例子说明吗？')" title="请求举例">
+                        💡 举例说明
+                    </button>
+                    <button class="toolbar-btn" onclick="insertQuickQuestion('这个和之前学的知识点有什么联系？')" title="关联知识">
+                        🔗 知识关联
+                    </button>
+                </div>
+                <div class="input-row">
+                    <textarea id="chatInput" class="chat-textarea" placeholder="输入你的问题..." rows="2"></textarea>
+                    <button class="send-btn" id="sendMessage">
+                        <span>发送</span>
+                        <span class="send-icon">→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.learning-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background: #f5f7fa;
+}
+
+.learning-topbar {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    background: white;
+    border-bottom: 1px solid #e1e8ed;
+    gap: 16px;
+}
+
+.btn-back {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #495057;
+    transition: all 0.2s;
+}
+
+.btn-back:hover {
+    background: #e9ecef;
+}
+
+.chapter-info {
+    flex: 1;
+}
+
+.chapter-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.course-name {
+    font-size: 13px;
+    color: #6c757d;
+}
+
+.topbar-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-nav {
+    padding: 8px 16px;
+    background: white;
+    border: 1px solid #4a90e2;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4a90e2;
+    transition: all 0.2s;
+}
+
+.btn-nav:hover {
+    background: #4a90e2;
+    color: white;
+}
+
+.btn-nav:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.learning-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* 左侧视频区 */
+.video-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #1a1a1a;
+}
+
+.video-container {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+.video-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #2d2d2d;
+    border-top: 1px solid #3d3d3d;
+}
+
+.video-progress {
+    flex: 1;
+}
+
+.chapter-list-dropdown {
+    position: relative;
+}
+
+.dropdown-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    background: #3d3d3d;
+    border: 1px solid #4d4d4d;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    min-width: 200px;
+}
+
+.dropdown-btn:hover {
+    background: #4d4d4d;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    background: #2d2d2d;
+    border: 1px solid #4d4d4d;
+    border-radius: 6px;
+    min-width: 250px;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.dropdown-content.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 16px;
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid #3d3d3d;
+}
+
+.dropdown-item:hover {
+    background: #3d3d3d;
+}
+
+.dropdown-item.active {
+    background: #4a90e2;
+}
+
+.video-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.control-btn {
+    padding: 8px 16px;
+    background: #4a90e2;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.control-btn:hover {
+    background: #357abd;
+}
+
+.notes-section {
+    padding: 16px 20px;
+    background: #2d2d2d;
+    border-top: 1px solid #3d3d3d;
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.notes-header h3 {
+    font-size: 14px;
+    color: white;
+    margin: 0;
+}
+
+.btn-save-notes {
+    padding: 6px 12px;
+    background: #67b26f;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.notes-textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    background: #1a1a1a;
+    border: 1px solid #3d3d3d;
+    border-radius: 6px;
+    color: white;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.notes-textarea::placeholder {
+    color: #6c757d;
+}
+
+/* 右侧AI问答区 */
+.ai-section {
+    width: 400px;
+    background: white;
+    border-left: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+}
+
+.ai-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e1e8ed;
+}
+
+.ai-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ai-icon {
+    font-size: 24px;
+}
+
+.ai-title h3 {
+    font-size: 16px;
+    margin: 0;
+    color: #1a1a1a;
+}
+
+.ai-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #67b26f;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #67b26f;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.message {
+    display: flex;
+    gap: 12px;
+}
+
+.ai-message .message-avatar {
+    flex-shrink: 0;
+}
+
+.user-message {
+    flex-direction: row-reverse;
+}
+
+.message-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.user-message .message-avatar {
+    background: #4a90e2;
+    color: white;
+}
+
+.message-content {
+    max-width: 280px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.ai-message .message-content {
+    background: #f8f9fa;
+    color: #1a1a1a;
+}
+
+.user-message .message-content {
+    background: #4a90e2;
+    color: white;
+}
+
+.message-content p {
+    margin: 0 0 8px 0;
+}
+
+.message-content p:last-child {
+    margin: 0;
+}
+
+.quick-questions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.quick-q-btn {
+    padding: 6px 12px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.quick-q-btn:hover {
+    background: #4a90e2;
+    color: white;
+    border-color: #4a90e2;
+}
+
+.chat-input-area {
+    border-top: 1px solid #e1e8ed;
+    padding: 16px 20px;
+}
+
+.input-toolbar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.toolbar-btn {
+    padding: 6px 12px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.toolbar-btn:hover {
+    background: #e9ecef;
+}
+
+.input-row {
+    display: flex;
+    gap: 12px;
+}
+
+.chat-textarea {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    font-size: 14px;
+    resize: none;
+    font-family: inherit;
+}
+
+.chat-textarea:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.send-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 12px 20px;
+    background: #4a90e2;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.send-btn:hover {
+    background: #357abd;
+}
+
+.send-icon {
+    font-size: 16px;
+}
+
+/* 滚动条样式 */
+.chat-messages::-webkit-scrollbar,
+.notes-textarea::-webkit-scrollbar,
+.dropdown-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track,
+.notes-textarea::-webkit-scrollbar-track,
+.dropdown-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb,
+.notes-textarea::-webkit-scrollbar-thumb,
+.dropdown-content::-webkit-scrollbar-thumb {
+    background: #dee2e6;
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover,
+.notes-textarea::-webkit-scrollbar-thumb:hover,
+.dropdown-content::-webkit-scrollbar-thumb:hover {
+    background: #adb5bd;
+}
+
+/* 文本内容区域样式 */
+.text-content-section {
+    background: white;
+    border-top: 1px solid #e5e7eb;
+}
+
+.text-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.text-content-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.toggle-content-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #6b7280;
+    transition: all 0.2s;
+}
+
+.toggle-content-btn:hover {
+    background: #e5e7eb;
+}
+
+.text-content-body {
+    padding: 20px;
+    background: #fafafa;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.text-content-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2a78ff;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.text-content-text {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+</style>
+
+<script>
+// 课程学习页面脚本
+(function() {
+    let currentCourse = null;
+    let currentChapter = null;
+    let currentChapterIndex = 0;
+    let chatHistory = [];
+    let learningAgentSessionId = null;
+
+    // 返回目录
+    document.getElementById('backToCatalog').addEventListener('click', function() {
+        if (currentCourse) {
+            window.location.hash = `#/student/catalog/${currentCourse.id}`;
+            loadPage('/student/frontend/pages/course_catalog.html');
+        } else {
+            window.location.hash = '#/student';
+            loadPage('/student/frontend/pages/student.html');
+        }
+    });
+
+    // 加载课程和章节数据
+    async function loadLearningData(courseId, chapterId) {
+        try {
+            console.log('[CourseLearning] Loading:', courseId, chapterId);
+
+            // 加载课程信息
+            const courseResponse = await apiRequest(`/api/student/course/${courseId}`);
+            console.log('[CourseLearning] Response:', courseResponse);
+
+            // API返回格式: {success: true, course: {...}}
+            currentCourse = courseResponse.course || courseResponse;
+
+            // 将 sections 对象转换为章节格式（与course_catalog保持一致）
+            const sections = currentCourse.sections || {};
+            const allContent = Object.values(sections).join('\n\n');
+            const sectionTitles = Object.keys(sections).join('、');
+
+            currentChapters = [{
+                id: currentCourse.id,  // 使用课程ID作为章节ID
+                title: currentCourse.chapter || currentCourse.title,
+                content: allContent,
+                description: `包含${Object.keys(sections).length}个小节：${sectionTitles}`,
+                completed: false
+            }];
+            console.log('[CourseLearning] Converted chapters:', currentChapters);
+            console.log('[CourseLearning] Looking for chapterId:', chapterId);
+            console.log('[CourseLearning] currentCourse.id:', currentCourse.id);
+            console.log('[CourseLearning] First chapter id:', currentChapters[0]?.id);
+
+            // 找到当前章节
+            const chapterIndex = currentChapters.findIndex(ch => ch.id === chapterId);
+            console.log('[CourseLearning] Chapter index:', chapterIndex);
+            if (chapterIndex === -1) {
+                console.error('[CourseLearning] Chapter not found!', {
+                    lookingFor: chapterId,
+                    availableIds: currentChapters.map(ch => ch.id),
+                    courseId: currentCourse.id
+                });
+                throw new Error('章节不存在');
+            }
+            currentChapterIndex = chapterIndex;
+            currentChapter = currentChapters[chapterIndex];
+            console.log('[CourseLearning] Current chapter:', currentChapter);
+
+            renderLearningInfo();
+            renderTextContent(); // 添加文本内容区域
+            loadNotes();
+            renderChapterDropdown();
+            updateNavButtons();
+            loadCourseVideo(); // 加载课程视频
+        } catch (error) {
+            console.error('加载学习内容失败:', error);
+            showToast('加载失败: ' + error.message, 'error');
+        }
+    }
+
+    // 渲染学习信息
+    function renderLearningInfo() {
+        document.getElementById('currentChapterTitle').textContent = currentChapter.title;
+        document.getElementById('currentCourseName').textContent = currentCourse.title;
+    }
+
+    // 渲染文本内容（添加到笔记区域下方）
+    function renderTextContent() {
+        console.log('[renderTextContent] Adding text content section');
+
+        const videoSection = document.querySelector('.video-section');
+        if (!videoSection) return;
+
+        // 移除旧的文本内容区域（如果存在）
+        const oldContent = document.getElementById('textContentSection');
+        if (oldContent) {
+            oldContent.remove();
+        }
+
+        // 转义HTML（保留LaTeX公式）
+        const escapeHtml = (text) => {
+            if (!text) return '';
+            // 先保护LaTeX公式（支持所有 MathJax 识别的数学定界符）
+            const latexBlocks = [];
+            const mathRegex = /\$\$[\s\S]*?\$\$|\\\[.*?\\\]|\\$$.*?\\$$|\$[^\$\n]+?\$|\\begin\{[^}]+\}[\s\S]*?\\end\{[^}]+\}/g;
+            let protectedText = text.replace(mathRegex, (match) => {
+                latexBlocks.push(match);
+                return `%%LATEX_${latexBlocks.length - 1}%%`;
+            });
+            // 转义HTML
+            const div = document.createElement('div');
+            div.textContent = protectedText;
+            let result = div.innerHTML;
+            // 恢复LaTeX公式
+            result = result.replace(/%%LATEX_(\d+)%%/g, (_, idx) => latexBlocks[parseInt(idx)]);
+            return result;
+        };
+
+        // 创建文本内容区域
+        const textContentDiv = document.createElement('div');
+        textContentDiv.id = 'textContentSection';
+        textContentDiv.className = 'text-content-section';
+        textContentDiv.innerHTML = `
+            <div class="text-content-header">
+                <h3>📖 课程内容</h3>
+                <button class="toggle-content-btn" onclick="toggleTextContent()">
+                    <span id="toggleIcon">▼</span> 展开全部
+                </button>
+            </div>
+            <div class="text-content-body" id="textBody" style="display: none;">
+                <div class="text-content-title">${escapeHtml(currentChapter.title || '')}</div>
+                <div class="text-content-text" style="white-space: pre-wrap; line-height: 1.8; font-size: 15px; color: #333;">
+                    ${escapeHtml(currentChapter.content || '暂无内容')}
+                </div>
+            </div>
+        `;
+
+        // 插入到笔记区域之前
+        const notesSection = document.querySelector('.notes-section');
+        if (notesSection) {
+            videoSection.insertBefore(textContentDiv, notesSection);
+        }
+
+        // 触发 MathJax 渲染（等待 MathJax 加载完成）
+        renderMathJax(textContentDiv);
+    }
+
+    // 渲染 MathJax 数学公式
+    function renderMathJax(element) {
+        if (window.MathJax && window.MathJax.typesetPromise) {
+            // MathJax 已加载，直接渲染
+            MathJax.typesetPromise([element]).catch((err) => console.log('MathJax error:', err));
+        } else if (window.MathJax) {
+            // MathJax 已加载但 typesetPromise 不可用（版本问题）
+            console.warn('[MathJax] typesetPromise 不可用，尝试使用 typeset');
+            if (MathJax.typeset) {
+                MathJax.typeset([element]);
+            } else {
+                console.log('[MathJax] 需要等待加载完成...');
+                // 等待 MathJax 加载完成
+                waitForMathJax(element);
+            }
+        } else {
+            // MathJax 未加载，等待加载
+            console.log('[MathJax] 未加载，等待加载...');
+            waitForMathJax(element);
+        }
+    }
+
+    // 等待 MathJax 加载完成
+    function waitForMathJax(element, attempts = 0) {
+        const maxAttempts = 50; // 最多等待5秒
+        if (attempts >= maxAttempts) {
+            console.warn('[MathJax] 加载超时');
+            return;
+        }
+
+        setTimeout(() => {
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                console.log('[MathJax] 加载完成，开始渲染');
+                MathJax.typesetPromise([element]).catch((err) => console.log('MathJax error:', err));
+            } else if (window.MathJax && MathJax.typeset) {
+                console.log('[MathJax] 使用 v2 API');
+                MathJax.typeset([element]);
+            } else {
+                console.log(`[MathJax] 等待中... (${attempts + 1}/${maxAttempts})`);
+                waitForMathJax(element, attempts + 1);
+            }
+        }, 100);
+    }
+
+    // 切换文本内容显示
+    window.toggleTextContent = function() {
+        const textBody = document.getElementById('textBody');
+        const toggleIcon = document.getElementById('toggleIcon');
+        if (textBody) {
+            if (textBody.style.display === 'none') {
+                textBody.style.display = 'block';
+                toggleIcon.textContent = '▲';
+            } else {
+                textBody.style.display = 'none';
+                toggleIcon.textContent = '▼';
+            }
+        }
+    };
+
+    // 渲染章节下拉列表
+    function renderChapterDropdown() {
+        const container = document.getElementById('chapterDropdownContent');
+        container.innerHTML = '';
+
+        currentChapters.forEach((chapter, index) => {
+            const item = document.createElement('div');
+            item.className = 'dropdown-item' + (chapter.id === currentChapter.id ? ' active' : '');
+            item.textContent = `第${index + 1}章：${chapter.title}`;
+            item.addEventListener('click', () => {
+                switchToChapter(index);
+                container.classList.remove('show');
+            });
+            container.appendChild(item);
+        });
+
+        document.getElementById('currentChapterLabel').textContent = `第${currentChapterIndex + 1}章：${currentChapter.title}`;
+    }
+
+    // 加载课程视频
+    async function loadCourseVideo() {
+        try {
+            console.log('[CourseLearning] Loading video for course:', currentCourse.id);
+
+            const videoPlayer = document.getElementById('videoPlayer');
+            if (!videoPlayer) return;
+
+            // 先通过 status 接口检查视频是否存在（使用 apiRequest 自动添加 session_id）
+            const statusData = await apiRequest(`/api/video/course/${currentCourse.id}/status`);
+            console.log('[CourseLearning] Status response:', statusData);
+
+            // 注意：服务器返回格式是 {success: true, status: {has_video: ...}}
+            if (statusData.status && statusData.status.has_video) {
+                // 视频存在，设置源（需要手动添加 session_id）
+                const sessionId = localStorage.getItem('sessionId') || '';
+                const videoUrl = `/api/video/course/${currentCourse.id}?session_id=${sessionId}`;
+                videoPlayer.src = videoUrl;
+                videoPlayer.style.display = 'block';
+                console.log('[CourseLearning] Video loaded successfully');
+                return;
+            }
+
+            // 视频不存在，显示占位符
+            console.log('[CourseLearning] No video available');
+            showNoVideoPlaceholder();
+
+        } catch (error) {
+            console.log('[CourseLearning] Video check failed:', error.message);
+            // 出错时也显示占位符
+            showNoVideoPlaceholder();
+        }
+    }
+
+
+    // 显示无视频占位符
+    function showNoVideoPlaceholder() {
+        const videoContainer = document.querySelector('.video-container');
+        if (videoContainer && !videoContainer.querySelector('.no-video-placeholder')) {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'no-video-placeholder';
+            placeholder.innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: #f8f9fa; color: #6b7280;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">📹</div>
+                    <p style="margin: 0; font-size: 16px; font-weight: 500;">该课程暂无视频</p>
+                    <p style="margin: 8px 0 0 0; font-size: 14px;">请查看下方的课程内容或使用AI学习助手</p>
+                </div>
+            `;
+            const videoPlayer = document.getElementById('videoPlayer');
+            if (videoPlayer) {
+                videoPlayer.style.display = 'none';
+                videoPlayer.parentNode.insertBefore(placeholder, videoPlayer);
+            }
+        }
+    }
+
+    // 切换章节
+    function switchToChapter(index) {
+        if (index >= 0 && index < currentChapters.length) {
+            const chapter = currentChapters[index];
+            // 保存当前笔记
+            saveNotes();
+            // 加载新章节
+            window.location.hash = `#/student/learning/${currentCourse.id}/${chapter.id}`;
+            loadLearningData(currentCourse.id, chapter.id);
+        }
+    }
+
+    // 更新导航按钮
+    function updateNavButtons() {
+        const prevBtn = document.getElementById('prevChapter');
+        const nextBtn = document.getElementById('nextChapter');
+
+        prevBtn.disabled = currentChapterIndex === 0;
+        nextBtn.disabled = currentChapterIndex === currentChapters.length - 1;
+    }
+
+    // 章节导航
+    document.getElementById('prevChapter').addEventListener('click', () => {
+        switchToChapter(currentChapterIndex - 1);
+    });
+
+    document.getElementById('nextChapter').addEventListener('click', () => {
+        switchToChapter(currentChapterIndex + 1);
+    });
+
+    // 下拉菜单
+    document.getElementById('chapterDropdown').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('chapterDropdownContent').classList.toggle('show');
+    });
+
+    document.addEventListener('click', function() {
+        document.getElementById('chapterDropdownContent').classList.remove('show');
+    });
+
+    // 笔记功能
+    function loadNotes() {
+        const notesTextarea = document.getElementById('chapterNotes');
+        if (!notesTextarea) {
+            console.log('[loadNotes] Notes textarea not found, skipping');
+            return;
+        }
+        const notesKey = `notes_${currentCourse.id}_${currentChapter.id}`;
+        const savedNotes = localStorage.getItem(notesKey);
+        if (savedNotes) {
+            notesTextarea.value = savedNotes;
+        }
+    }
+
+    function saveNotes() {
+        const notesTextarea = document.getElementById('chapterNotes');
+        if (!notesTextarea) {
+            console.log('[saveNotes] Notes textarea not found, skipping');
+            return;
+        }
+        const notes = notesTextarea.value;
+        const notesKey = `notes_${currentCourse.id}_${currentChapter.id}`;
+        localStorage.setItem(notesKey, notes);
+        console.log('[saveNotes] Notes saved for:', notesKey);
+    }
+
+    document.getElementById('saveNotesBtn').addEventListener('click', function() {
+        saveNotes();
+        showToast('笔记已保存', 'success');
+    });
+
+    // 标记完成
+    document.getElementById('markCompleted').addEventListener('click', async function() {
+        try {
+            await apiRequest(`/api/student/progress`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    course_id: currentCourse.id,
+                    chapter_id: currentChapter.id,
+                    completed: true
+                })
+            });
+            currentChapter.completed = true;
+            showToast('已标记为完成', 'success');
+        } catch (error) {
+            console.error('标记失败:', error);
+            showToast('标记失败: ' + error.message, 'error');
+        }
+    });
+
+    // 下载笔记
+    document.getElementById('downloadNotes').addEventListener('click', function() {
+        const notes = document.getElementById('chapterNotes').value;
+        const blob = new Blob([notes], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${currentCourse.title}_${currentChapter.title}_笔记.txt`;
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+
+    // ===== AI聊天功能 =====
+
+    // 快捷提问
+    window.askQuickQuestion = function(question) {
+        document.getElementById('chatInput').value = question;
+        sendMessage();
+    };
+
+    // 插入快捷问题
+    window.insertQuickQuestion = function(question) {
+        document.getElementById('chatInput').value = question;
+        document.getElementById('chatInput').focus();
+    };
+
+    // 发送消息
+    async function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+
+        if (!message) return;
+
+        // 添加用户消息
+        addChatMessage('user', message);
+        input.value = '';
+
+        // 显示loading
+        const loadingId = addChatMessage('ai', '思考中...', true);
+
+        try {
+            // 调用Agent聊天API
+            const response = await apiRequest('/api/agent/chat', {
+                method: 'POST',
+                body: JSON.stringify({
+                    message: message,
+                    agent_type: 'learning_tutor',
+                    session_id: learningAgentSessionId,
+                    course_id: currentCourse ? currentCourse.id : undefined,
+                    chapter_id: currentChapter ? currentChapter.id : undefined
+                })
+            });
+
+            // 移除loading
+            removeChatMessage(loadingId);
+
+            // 保存Agent会话ID
+            if (response.session_id) {
+                learningAgentSessionId = response.session_id;
+            }
+
+            // 添加AI回复
+            addChatMessage('ai', response.response);
+
+            // 更新对话历史
+            chatHistory.push({ role: 'user', content: message });
+            chatHistory.push({ role: 'assistant', content: response.response });
+
+        } catch (error) {
+            removeChatMessage(loadingId);
+            addChatMessage('ai', '抱歉，我遇到了一些问题，请稍后再试。');
+            console.error('AI问答失败:', error);
+        }
+    }
+
+    function addChatMessage(type, content, isLoading = false) {
+        const container = document.getElementById('chatMessages');
+        const messageDiv = document.createElement('div');
+        const messageId = 'msg_' + Date.now();
+
+        messageDiv.id = messageId;
+        messageDiv.className = `message ${type}-message`;
+
+        // 转义HTML但保留LaTeX公式
+        const escapeHtml = (text) => {
+            if (!text) return '';
+            const latexBlocks = [];
+            const mathRegex = /\$\$[\s\S]*?\$\$|\\\[.*?\\\]|\\$$.*?\\$$|\$[^\$\n]+?\$|\\begin\{[^}]+\}[\s\S]*?\\end\{[^}]+\}/g;
+            let protectedText = text.replace(mathRegex, (match) => {
+                latexBlocks.push(match);
+                return `%%LATEX_${latexBlocks.length - 1}%%`;
+            });
+            const div = document.createElement('div');
+            div.textContent = protectedText;
+            let result = div.innerHTML;
+            result = result.replace(/%%LATEX_(\d+)%%/g, (_, idx) => latexBlocks[parseInt(idx)]);
+            result = result.replace(/\n/g, '<br>');
+            return result;
+        };
+
+        if (type === 'ai') {
+            messageDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="message-content tex2jax_process">
+                    <p>${escapeHtml(content)}</p>
+                </div>
+            `;
+        } else {
+            messageDiv.innerHTML = `
+                <div class="message-avatar">我</div>
+                <div class="message-content">
+                    <p>${escapeHtml(content)}</p>
+                </div>
+            `;
+        }
+
+        container.appendChild(messageDiv);
+        container.scrollTop = container.scrollHeight;
+
+        // AI消息渲染MathJax数学公式
+        if (type === 'ai') {
+            const contentEl = messageDiv.querySelector('.message-content');
+            if (contentEl) {
+                const doTypeset = () => {
+                    try {
+                        MathJax.typesetClear([contentEl]);
+                        MathJax.typesetPromise([contentEl]).catch((err) => console.log('MathJax error:', err));
+                    } catch (e) {
+                        console.log('MathJax typeset failed:', e);
+                    }
+                };
+                if (window.MathJax && window.MathJax.startup && window.MathJax.startup.promise) {
+                    MathJax.startup.promise.then(doTypeset);
+                } else if (window.MathJax && window.MathJax.typesetPromise) {
+                    doTypeset();
+                } else {
+                    // MathJax未加载，轮询等待
+                    let attempts = 0;
+                    const check = setInterval(() => {
+                        attempts++;
+                        if (window.MathJax && window.MathJax.typesetPromise) {
+                            clearInterval(check);
+                            doTypeset();
+                        } else if (attempts > 50) {
+                            clearInterval(check);
+                        }
+                    }, 100);
+                }
+            }
+        }
+
+        return messageId;
+    }
+
+    function removeChatMessage(messageId) {
+        const element = document.getElementById(messageId);
+        if (element) {
+            element.remove();
+        }
+    }
+
+    // 发送按钮
+    document.getElementById('sendMessage').addEventListener('click', sendMessage);
+
+    // 回车发送
+    document.getElementById('chatInput').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+
+    // 初始化
+    function init() {
+        console.log('[CourseLearning] Page loaded, initializing...');
+        console.log('[CourseLearning] Current hash:', window.location.hash);
+
+        const hash = window.location.hash;
+        const match = hash.match(/\/student\/learning\/([^\/]+)\/([^\/]+)/);
+
+        console.log('[CourseLearning] Hash match result:', match);
+
+        if (match) {
+            const courseId = match[1];
+            const chapterId = match[2];
+            console.log('[CourseLearning] Extracted courseId:', courseId, 'chapterId:', chapterId);
+            loadLearningData(courseId, chapterId);
+        } else {
+            console.error('[CourseLearning] Failed to parse hash or no hash present');
+            showToast('页面加载失败，请返回课程列表', 'error');
+        }
+    }
+
+    init();
+})();
+</script>

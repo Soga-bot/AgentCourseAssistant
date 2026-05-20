@@ -1,0 +1,1885 @@
+/**
+ * 初中数学智能教学系统 - 主样式
+ * 复用蓝紫渐变风格
+ */
+
+/* ==================== 基础样式 ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+                 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: linear-gradient(90deg, #2a78ff, #7a41ff);
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* ==================== 通用组件 ==================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.btn {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2a78ff, #7a41ff);
+    color: white;
+    box-shadow: 0 4px 15px rgba(42, 120, 255, 0.4);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1e5ee0, #6a2edd);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(42, 120, 255, 0.5);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #64d2ff;
+    border: 2px solid #64d2ff;
+}
+
+.btn-secondary:hover {
+    background: rgba(100, 210, 255, 0.1);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* ==================== 登录页 ==================== */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 登录页顶部导航栏 */
+.login-container > header.login-header {
+    background: #ffffff;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 2px solid rgba(42, 120, 255, 0.1);
+}
+
+.login-container .login-header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.login-container .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2a78ff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.login-container .nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+}
+
+.login-container .nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+    transition: all 0.3s;
+    position: relative;
+    padding: 8px 12px;
+    border-radius: 6px;
+}
+
+.login-container .nav-links a:hover {
+    color: #2a78ff;
+    background: rgba(42, 120, 255, 0.08);
+}
+
+.login-container .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: #2a78ff;
+    transition: width 0.3s;
+}
+
+.login-container .nav-links a:hover::after {
+    width: 80%;
+}
+
+/* 登录页主内容区 - Hero Section */
+.hero-section {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    color: white;
+    animation: fadeInUp 0.8s ease;
+}
+
+.hero-title {
+    font-size: 56px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+    font-size: 24px;
+    opacity: 0.95;
+    margin-bottom: 16px;
+}
+
+.hero-description {
+    font-size: 18px;
+    opacity: 0.85;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn-large {
+    padding: 16px 40px;
+    font-size: 18px;
+}
+
+/* 功能特性区域 */
+.features-section {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 80px 20px;
+}
+
+/* 关于我们区域 */
+.about-section {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 80px 20px;
+}
+
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.about-content > p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 50px;
+}
+
+.about-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 48px;
+    font-weight: bold;
+    color: #2a78ff;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 16px;
+    color: #666;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 36px;
+    color: #2c3e50;
+    margin-bottom: 50px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.feature-icon-large {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.feature-card h3 {
+    color: #2c3e50;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.feature-card p {
+    color: #666;
+    line-height: 1.6;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 15px;
+    transition: all 0.3s;
+    background: #fafafa;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: #2a78ff;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(42, 120, 255, 0.1);
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%232a78ff'%3E%3Cpath d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 45px;
+    background-color: #fafafa;
+    cursor: pointer;
+}
+
+.form-select:focus {
+    background-color: white;
+}
+
+.login-box .login-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+    background: #f3f4f6;
+    padding: 6px;
+    border-radius: 12px;
+}
+
+.login-box .login-tab {
+    flex: 1;
+    padding: 12px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 500;
+    color: #666;
+}
+
+.login-box .login-tab:hover {
+    color: #2a78ff;
+}
+
+.login-box .login-tab.active {
+    background: white;
+    color: #2a78ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* 模态框样式 */
+.modal {
+    display: none !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.show {
+    display: flex !important;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 450px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: scaleIn 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 28px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 24px;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.modal-close:hover {
+    background: #f3f4f6;
+    color: #333;
+}
+
+.modal-body {
+    padding: 28px;
+}
+
+.modal-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.modal-footer a {
+    color: #2a78ff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.modal-footer a:hover {
+    text-decoration: underline;
+}
+
+.test-accounts {
+    font-size: 12px;
+    color: #999;
+    margin-top: 12px;
+}
+
+/* 底部 Footer */
+.login-container .login-footer {
+    background: rgba(0, 0, 0, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+    padding: 20px;
+    margin-top: 0;
+}
+
+.login-container .login-footer p {
+    margin: 0;
+}
+
+/* ==================== 教师端 ==================== */
+.teacher-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.teacher-sidebar {
+    width: 250px;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.teacher-header {
+    padding: 24px;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.teacher-header h2 {
+    color: #667eea;
+    font-size: 20px;
+}
+
+.teacher-nav {
+    padding: 16px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: #666;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.nav-item:hover {
+    background: #f3f4f6;
+    color: #667eea;
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.nav-icon {
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.teacher-main {
+    flex: 1;
+    background: #f9fafb;
+    overflow-y: auto;
+}
+
+.teacher-topbar {
+    background: white;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.teacher-content {
+    padding: 24px;
+}
+
+.content-page {
+    display: none;
+}
+
+.content-page.active {
+    display: block;
+}
+
+/* 课程卡片 */
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.course-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+}
+
+.course-card-header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 16px;
+}
+
+.course-card-title {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.course-card-meta {
+    font-size: 12px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.course-card-body {
+    padding: 16px;
+}
+
+.course-card-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #f3f4f6;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* ==================== 学生端 ==================== */
+.student-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.student-sidebar {
+    width: 200px;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.student-main {
+    flex: 1;
+    background: #f9fafb;
+}
+
+.student-content {
+    padding: 24px;
+}
+
+/* 学习进度卡片 */
+.progress-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.progress-title {
+    font-weight: 600;
+    color: #333;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    border-radius: 4px;
+    transition: width 0.3s;
+}
+
+/* 练习题 */
+.exercise-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.exercise-item {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.question-text {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 16px;
+    line-height: 1.8;
+}
+
+.options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.option-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.option-item:hover {
+    border-color: #667eea;
+    background: #f9fafb;
+}
+
+.option-item.selected {
+    border-color: #667eea;
+    background: #ede9fe;
+}
+
+.option-label {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-weight: 600;
+    color: #666;
+}
+
+.option-item.selected .option-label {
+    background: #667eea;
+    color: white;
+}
+
+/* 错题本 */
+.mistake-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border-left: 4px solid #ef4444;
+    margin-bottom: 16px;
+}
+
+.mistake-question {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.mistake-meta {
+    display: flex;
+    gap: 16px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* ==================== 加载动画 ==================== */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ==================== 消息提示 ==================== */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 300px;
+    max-width: 500px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    z-index: 9999;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.toast-action {
+    padding: 6px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.toast-action:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.toast-action-primary {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    font-weight: 600;
+}
+
+.toast-action-primary:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.toast-fading {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.toast-success {
+    background: #10b981;
+}
+
+.toast-error {
+    background: #ef4444;
+}
+
+.toast-info {
+    background: #3b82f6;
+}
+
+.toast-warning {
+    background: #f59e0b;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* ==================== 空状态 ==================== */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+}
+
+.empty-text {
+    color: #666;
+    font-size: 16px;
+}
+
+/* ==================== 弹窗 ==================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: auto;
+    animation: scaleIn 0.2s ease;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #333;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ==================== 表格 ==================== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f9fafb;
+}
+
+th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    font-weight: 600;
+    color: #555;
+}
+
+tbody tr:hover {
+    background: #f9fafb;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .teacher-sidebar,
+    .student-sidebar {
+        width: 60px;
+    }
+
+    .teacher-header h2,
+    .nav-text {
+        display: none;
+    }
+
+    .course-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* 登录页响应式 */
+    .login-container .nav-links a:not(.btn) {
+        display: none;
+    }
+
+    .hero-title {
+        font-size: 36px;
+    }
+
+    .hero-subtitle {
+        font-size: 20px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-large {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .section-title {
+        font-size: 28px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        width: 95%;
+        max-width: 100%;
+    }
+
+    .about-stats {
+        gap: 30px;
+    }
+
+    .stat-number {
+        font-size: 36px;
+    }
+}
+
+/* ==================== 预览和编辑界面样式 ==================== */
+
+.btn-outline {
+    padding: 12px 28px;
+    border: 2px solid #e5e7eb;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    background: white;
+    color: #666;
+}
+
+.btn-outline:hover {
+    border-color: #2a78ff;
+    color: #2a78ff;
+}
+
+/* 预览内容样式 */
+#previewContent {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+                 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+#previewContent h4 {
+    color: #1f2937;
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+#previewContent h5 {
+    color: #2a78ff;
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+/* 验证状态样式 */
+.validation-success {
+    background: #d1fae5;
+    color: #065f46;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.validation-warning {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.validation-error {
+    background: #fee2e2;
+    color: #991b1b;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+/* 编辑表单样式 */
+#editForm textarea {
+    min-height: 150px;
+    font-family: 'Microsoft YaHei', Arial, sans-serif;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+/* 操作按钮组 */
+.action-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+    }
+}
+
+/* ==================== 课程卡片样式 ==================== */
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+    padding: 20px 0;
+}
+
+.course-card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid #e1e8ed;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(42, 120, 255, 0.15);
+    border-color: #4a90e2;
+}
+
+.course-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.course-card-icon {
+    font-size: 40px;
+    flex-shrink: 0;
+}
+
+.course-card-info {
+    flex: 1;
+}
+
+.course-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 8px;
+}
+
+.course-card-meta {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.meta-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #f0f4f8;
+    color: #5a6c7d;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+.course-card-body {
+    flex: 1;
+    margin-bottom: 16px;
+}
+
+.course-description {
+    color: #5a6c7d;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+.course-progress-mini {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.progress-bar-mini {
+    flex: 1;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill-mini {
+    height: 100%;
+    background: linear-gradient(90deg, #4a90e2, #67b26f);
+    border-radius: 3px;
+    transition: width 0.3s;
+}
+
+.progress-text-mini {
+    font-size: 12px;
+    color: #6c757d;
+    min-width: 40px;
+    text-align: right;
+}
+
+.course-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #e9ecef;
+}
+
+.course-date {
+    font-size: 12px;
+    color: #adb5bd;
+}
+
+.btn-enter-course {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* 空状态样式 */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.empty-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-text {
+    color: #adb5bd;
+    font-size: 16px;
+}
+
+/* ==================== AI助教聊天界面 ==================== */
+#chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.chat-message {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    animation: messageSlideIn 0.3s ease;
+}
+
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.agent-message .message-avatar {
+    background: linear-gradient(135deg, #2a78ff, #7a41ff);
+    color: white;
+}
+
+.user-message .message-avatar {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.user-message {
+    flex-direction: row-reverse;
+}
+
+.user-message .message-avatar {
+    margin-right: 0;
+    margin-left: 12px;
+}
+
+.message-content {
+    max-width: 70%;
+    background: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.agent-message .message-content {
+    background: white;
+    border: 1px solid #e9ecef;
+}
+
+.user-message .message-content {
+    background: linear-gradient(135deg, #2a78ff, #7a41ff);
+    color: white;
+}
+
+.message-text {
+    line-height: 1.6;
+    word-wrap: break-word;
+}
+
+.message-time {
+    font-size: 11px;
+    color: #adb5bd;
+    margin-top: 6px;
+}
+
+.user-message .message-time {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* 快捷问题按钮 */
+.quick-question {
+    font-size: 13px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.quick-question:hover {
+    background: rgba(42, 120, 255, 0.1);
+    border-color: #2a78ff;
+}
+
+/* Agent状态指示器 */
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.status-online {
+    background: #10b981;
+    animation: pulse 2s infinite;
+}
+
+.status-offline {
+    background: #6c757d;
+}
+
+.status-thinking {
+    background: #f59e0b;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* ==================== 练习题显示样式 ==================== */
+.exercise-question {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.exercise-question-header {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.exercise-question-type {
+    font-size: 12px;
+    color: #888;
+    font-weight: normal;
+    margin-left: 8px;
+    padding: 2px 8px;
+    background: #e9ecef;
+    border-radius: 12px;
+}
+
+.exercise-options {
+    margin: 8px 0;
+    padding-left: 16px;
+}
+
+.exercise-option {
+    margin: 6px 0;
+    color: #555;
+}
+
+.exercise-diagram {
+    margin: 12px 0;
+    padding: 12px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-radius: 8px;
+    border-left: 4px solid #2196f3;
+}
+
+.exercise-diagram-title {
+    font-weight: 600;
+    color: #1976d2;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.exercise-diagram-content {
+    color: #424242;
+    font-size: 13px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.exercise-explanation {
+    margin-top: 8px;
+}
+
+.exercise-explanation summary {
+    cursor: pointer;
+    color: #2a78ff;
+    font-size: 13px;
+    padding: 8px;
+    background: #e3f2fd;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.exercise-explanation summary:hover {
+    background: #bbdefb;
+}
+
+.exercise-explanation-content {
+    margin-top: 8px;
+    padding: 12px;
+    background: #fff3cd;
+    border-radius: 4px;
+    border-left: 4px solid #ffc107;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* 练习题操作按钮 */
+.exercise-actions {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.exercise-result-header {
+    margin-bottom: 12px;
+    padding: 12px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.exercise-result-stat {
+    display: inline-block;
+    margin-right: 16px;
+    font-size: 14px;
+}
+
+/* LaTeX公式在练习题中的样式 */
+.exercise-question .latex-formula {
+    font-family: 'Times New Roman', serif;
+    font-style: italic;
+    padding: 0 4px;
+}
+
+/* ==================== 模态框样式 ==================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #adb5bd;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background: #f8f9fa;
+    color: #495057;
+}
+
+.modal-body {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid #e9ecef;
+}
+
+/* ==================== 答题界面样式 ==================== */
+.answer-question {
+    margin-bottom: 32px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    border-left: 4px solid #2a78ff;
+}
+
+.answer-question.current {
+    background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+    border-left-color: #7a41ff;
+}
+
+.answer-question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.answer-question-number {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2a78ff;
+    padding: 4px 12px;
+    background: rgba(42, 120, 255, 0.1);
+    border-radius: 20px;
+}
+
+.answer-question-score {
+    font-size: 13px;
+    color: #666;
+}
+
+.answer-question-content {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+/* 选择题选项 */
+.answer-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.answer-option {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.answer-option:hover {
+    border-color: #2a78ff;
+    background: #f8f9fa;
+}
+
+.answer-option.selected {
+    border-color: #2a78ff;
+    background: #e3f2fd;
+}
+
+.answer-option input[type="radio"] {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.answer-option-label {
+    flex: 1;
+    cursor: pointer;
+}
+
+/* 填空题输入 */
+.answer-fill-input {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+}
+
+.answer-fill-input:focus {
+    outline: none;
+    border-color: #2a78ff;
+}
+
+/* 解答题文本框 */
+.answer-essay-textarea {
+    width: 100%;
+    min-height: 150px;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 16px;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.answer-essay-textarea:focus {
+    outline: none;
+    border-color: #2a78ff;
+}
+
+/* 图示显示 */
+.answer-diagram {
+    margin: 16px 0;
+    padding: 16px;
+    background: white;
+    border-radius: 8px;
+    border: 1px dashed #adb5bd;
+}
+
+.answer-diagram-title {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.answer-diagram-content {
+    font-family: monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: #495057;
+}
+
+/* 结果显示样式 */
+.result-summary {
+    text-align: center;
+    padding: 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.result-score {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 12px 0;
+}
+
+.result-score.excellent { color: #4caf50; }
+.result-score.good { color: #2196f3; }
+.result-score.fair { color: #ff9800; }
+.result-score.poor { color: #f44336; }
+
+.result-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.result-detail-item {
+    text-align: center;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.result-detail-value {
+    font-size: 24px;
+    font-weight: 600;
+    color: #2a78ff;
+}
+
+.result-detail-label {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* 题目结果 */
+.result-question {
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.result-question.correct { border-left: 4px solid #4caf50; }
+.result-question.incorrect { border-left: 4px solid #f44336; }
+.result-question.pending { border-left: 4px solid #ff9800; }
+
+.result-question-status {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+}
+
+.result-question-status.correct { background: #e8f5e9; color: #4caf50; }
+.result-question-status.incorrect { background: #ffebee; color: #f44336; }
+.result-question-status.pending { background: #fff3e0; color: #ff9800; }
+
+.result-answer-value { font-weight: 500; }
+.result-answer-value.correct { color: #4caf50; }
+.result-answer-value.incorrect { color: #f44336; }
+
+/* ==================== 响应式设计 ==================== */
+@media (max-width: 768px) {
+    .message-content {
+        max-width: 85%;
+    }
+
+    .quick-question {
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+}

@@ -1,0 +1,340 @@
+<!-- 教师端页面 -->
+<div class="teacher-layout">
+    <div class="teacher-sidebar">
+        <div class="teacher-header">
+            <h2>[TEACHING] 教师端</h2>
+        </div>
+        <div class="teacher-nav">
+            <div class="nav-item" data-target="courses">
+                <span class="nav-icon">[BOOK]</span>
+                <span class="nav-text">我的课程</span>
+            </div>
+            <div class="nav-item" data-target="generate">
+                <span class="nav-icon">[ADD]</span>
+                <span class="nav-text">生成课程</span>
+            </div>
+            <div class="nav-item" data-target="classes">
+                <span class="nav-icon">[GROUP]</span>
+                <span class="nav-text">班级管理</span>
+            </div>
+            <div class="nav-item" data-target="students">
+                <span class="nav-icon">[USERS]</span>
+                <span class="nav-text">学生管理</span>
+            </div>
+            <div class="nav-item" data-target="lessonPlans">
+                <span class="nav-icon">[BOOK]</span>
+                <span class="nav-text">教案管理</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="teacher-main">
+        <div class="teacher-topbar">
+            <h1>教师工作台</h1>
+            <div class="user-info">
+                <div class="user-name">老师</div>
+                <div class="user-avatar">T</div>
+                <button class="btn btn-secondary" id="logoutBtn" style="padding: 8px 16px;">退出</button>
+            </div>
+        </div>
+
+        <div class="teacher-content">
+            <!-- 我的课程页面 -->
+            <div class="content-page active" id="courses">
+                <h2 style="margin-bottom: 20px;">我的课程</h2>
+                <div id="teacherCoursesList"></div>
+            </div>
+
+            <!-- 生成课程页面 -->
+            <div class="content-page" id="generate">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">生成新课程</h2>
+                    <button class="btn btn-outline" onclick="runVideoDiagnostics()" style="padding: 8px 16px; font-size: 14px;">
+                        🔍 环境诊断
+                    </button>
+                </div>
+                <div class="card">
+                    <form id="generateForm">
+                        <!-- 内容来源选择 -->
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label style="font-weight: 600; margin-bottom: 10px; display: block;">内容来源</label>
+                            <div style="display: flex; gap: 20px;">
+                                <label style="display: flex; align-items: center; cursor: pointer;">
+                                    <input type="radio" name="contentSource" value="textbook" checked style="margin-right: 8px;">
+                                    <span>📚 教材章节（生成学生课件）</span>
+                                </label>
+                                <label style="display: flex; align-items: center; cursor: pointer;">
+                                    <input type="radio" name="contentSource" value="custom" style="margin-right: 8px;">
+                                    <span>✏️ 自定义内容（教师专用）</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 教材章节选择（学生课件模式） -->
+                        <div id="textbookSection">
+                            <div style="background: #f0f7ff; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+                                <div style="font-size: 13px; color: #4a90e2;">
+                                    📖 <strong>学生课件模式</strong>：生成适合学生阅读理解的学习材料，包含知识点详解、例题、练习等
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="version">教材版本</label>
+                                <select id="version" class="form-control form-select">
+                                    <option value="">请选择</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="grade">年级</label>
+                                <select id="grade" class="form-control form-select" disabled>
+                                    <option value="">请先选择教材版本</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="chapter">章节</label>
+                                <select id="chapter" class="form-control form-select" disabled>
+                                    <option value="">请先选择年级</option>
+                                </select>
+                            </div>
+
+                            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb;">
+                                <label style="font-weight: 600; margin-bottom: 12px; display: block; color: #2a78ff;">生成设置</label>
+
+                                <div class="form-group">
+                                    <label for="studentLevel">学生水平</label>
+                                    <select id="studentLevel" class="form-control form-select" required>
+                                        <option value="基础薄弱">基础薄弱（步骤详细·概念拆解）</option>
+                                        <option value="中等巩固" selected>中等巩固（常规讲解·易混辨析）</option>
+                                        <option value="培优拓展">培优拓展（一题多解·思维拓展）</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 自定义内容（教师专用模式） -->
+                        <div id="customSection" style="display: none;">
+                            <div style="background: #fff8e6; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
+                                <div style="font-size: 13px; color: #d97706;">
+                                    ✏️ <strong>教师专用模式</strong>：生成备课教案、课堂逐字稿、板书设计、复习串讲等教师专用材料
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contentType">内容类型</label>
+                                <select id="contentType" class="form-control form-select">
+                                    <option value="lesson_plan">📋 教师备课教案（教学目标、重难点、教学流程）</option>
+                                    <option value="teaching_script">🎤 课堂讲解逐字稿（45分钟完整讲稿）</option>
+                                    <option value="board_design">📋 板书设计（黑板布局、核心公式）</option>
+                                    <option value="review_outline">🔄 复习串讲大纲（知识点串联、易错点总结）</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="customTitle">课程标题</label>
+                                <input type="text" id="customTitle" class="form-control" placeholder="如：勾股定理的应用">
+                            </div>
+                            <div class="form-group">
+                                <label for="customOutline">
+                                    课程大纲/教案/讲义
+                                    <span style="color: #999; font-size: 12px; font-weight: normal; margin-left: 8px;">
+                                        （系统将保持您原有的内容风格，仅做结构化整理）
+                                    </span>
+                                </label>
+                                <textarea id="customOutline" class="form-control" rows="10"
+                                    placeholder="请输入您的课程大纲、教案或讲义内容，例如：
+
+一、勾股定理回顾
+   1. 勾股定理的内容
+   2. 勾股定理的证明方法
+
+二、勾股定理的应用
+   1. 在直角三角形中求边长
+   2. 判断三角形的形状
+   3. 实际问题应用
+
+三、典型例题
+   例1：求梯子底端距离墙角的距离
+   例2：判断三角形是否为直角三角形
+
+四、课堂练习
+   ..."
+                                    style="font-family: 'Microsoft YaHei', Arial, sans-serif; line-height: 1.6; resize: vertical;"></textarea>
+                            </div>
+                            <div style="background: #f0f7ff; padding: 12px; border-radius: 8px; margin-top: 12px;">
+                                <div style="font-size: 13px; color: #4a90e2;">
+                                    💡 <strong>提示：</strong>自定义模式下，系统将保持您原有的教学风格和内容深度，
+                                    不需要额外选择学生水平。系统会自动将您的内容整理成标准课件格式。
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">开始生成</button>
+                    </form>
+                </div>
+
+                <!-- 生成进度 -->
+                <div id="progressSection" style="display: none; margin-top: 20px;">
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px;">生成进度</h3>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+                            <p id="progressMessage" style="color: #666; margin: 0;">准备中...</p>
+                            <p id="progressPercent" style="color: #667eea; font-weight: 600; margin: 0;">0%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 生成结果 -->
+                <div id="resultSection" style="display: none; margin-top: 20px;">
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px;">生成完成！</h3>
+                        <div id="resultContent"></div>
+                        <div class="export-buttons" style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button class="btn btn-primary" onclick="exportResult('word')">导出 Word</button>
+                            <button class="btn btn-primary" onclick="exportResult('pdf')">导出 PDF</button>
+                            <button class="btn btn-secondary" onclick="exportResult('latex')">导出 LaTeX</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 预览确认界面 -->
+                <div id="previewSection" style="display: none; margin-top: 20px;">
+                    <div class="card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                            <h3>课程预览</h3>
+                            <div id="validationStatus" style="padding: 8px 16px; border-radius: 8px; font-size: 14px;"></div>
+                        </div>
+
+                        <!-- 验证结果 -->
+                        <div id="validationResult" style="margin-bottom: 20px;"></div>
+
+                        <!-- 视频生成状态提示 -->
+                        <div id="videoNotice" style="display: none; margin-bottom: 20px;"></div>
+
+                        <!-- 内容预览 -->
+                        <div id="previewContent" style="max-height: 500px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-bottom: 20px; background: #fafafa;"></div>
+
+                        <!-- 操作按钮 - 文本生成后显示 -->
+                        <div class="action-buttons-text" id="actionButtonsText" style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <button class="btn btn-primary" id="generateVideoBtn">🎬 生成讲解视频</button>
+                            <button class="btn btn-secondary" id="editCourseBtn">编辑内容</button>
+                            <button class="btn btn-secondary" id="regenerateBtn">重新生成</button>
+                            <button class="btn btn-outline" id="cancelPreviewBtn">取消</button>
+                        </div>
+
+                        <!-- 操作按钮 - 视频生成后显示 -->
+                        <div class="action-buttons-video" id="actionButtonsVideo" style="display: none; gap: 12px; flex-wrap: wrap;">
+                            <button class="btn btn-success" id="saveCourseBtn">💾 保存到我的课程</button>
+                            <button class="btn btn-secondary" id="editCourseAfterVideoBtn">编辑内容</button>
+                            <button class="btn btn-outline" id="cancelPreviewAfterVideoBtn">取消</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 编辑界面 -->
+                <div id="editSection" style="display: none; margin-top: 20px;">
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px;">编辑课程内容</h3>
+                        <!-- 视频不一致警告 -->
+                        <div id="editVideoWarning" style="display: none; background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="font-size: 20px;">⚠️</span>
+                                <div>
+                                    <strong style="color: #92400e;">视频内容可能不一致</strong>
+                                    <p style="margin: 4px 0 0 0; color: #78350f; font-size: 14px;">此课程已生成视频，编辑后文字内容与视频内容可能不匹配。建议保存后重新生成视频。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="editForm"></div>
+                        <div style="display: flex; gap: 12px; margin-top: 20px;">
+                            <button class="btn btn-primary" id="saveEditBtn">保存修改</button>
+                            <button class="btn btn-secondary" id="cancelEditBtn">取消编辑</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 版本对比界面 -->
+                <div id="compareSection" style="display: none; margin-top: 20px;">
+                    <div class="card">
+                        <h3 style="margin-bottom: 16px;">版本对比</h3>
+                        <div id="compareContent"></div>
+                        <button class="btn btn-secondary" id="cancelCompareBtn" style="margin-top: 20px;">关闭对比</button>
+                    </div>
+                </div>
+
+                <!-- 诊断结果弹窗 -->
+                <div id="diagnosticsModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center;">
+                    <div style="background: white; border-radius: 12px; padding: 24px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <h3 style="margin: 0;">视频生成环境诊断</h3>
+                            <button onclick="closeDiagnosticsModal()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+                        </div>
+                        <div id="diagnosticsResult"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 班级管理页面 -->
+            <div class="content-page" id="classes">
+                <h2 style="margin-bottom: 20px;">班级管理</h2>
+
+                <!-- 创建班级表单 -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 16px;">创建新班级</h3>
+                    <form id="createClassForm" style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+                        <div class="form-group" style="flex: 1; min-width: 200px;">
+                            <label for="className">班级名称</label>
+                            <input type="text" id="className" class="form-control" placeholder="如：七年级1班" required>
+                        </div>
+                        <div class="form-group" style="flex: 1; min-width: 150px;">
+                            <label for="classGrade">年级</label>
+                            <select id="classGrade" class="form-control form-select">
+                                <option value="">请选择年级</option>
+                                <option value="七年级">七年级</option>
+                                <option value="八年级">八年级</option>
+                                <option value="九年级">九年级</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 2; min-width: 250px;">
+                            <label for="classDesc">班级描述（选填）</label>
+                            <input type="text" id="classDesc" class="form-control" placeholder="如：重点班、普通班等">
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="margin-bottom: 16px;">创建班级</button>
+                    </form>
+                </div>
+
+                <!-- 班级列表 -->
+                <div id="classList"></div>
+            </div>
+
+            <!-- 学生管理页面 -->
+            <div class="content-page" id="students">
+                <h2 style="margin-bottom: 20px;">学生管理</h2>
+                <div class="card">
+                    <div class="form-group">
+                        <label for="classSelect">选择班级</label>
+                        <select id="classSelect" class="form-control form-select">
+                            <option value="七年级1班">七年级1班</option>
+                            <option value="七年级2班">七年级2班</option>
+                            <option value="八年级1班">八年级1班</option>
+                            <option value="八年级2班">八年级2班</option>
+                            <option value="九年级1班">九年级1班</option>
+                            <option value="九年级2班">九年级2班</option>
+                        </select>
+                    </div>
+                    <div id="studentsList"></div>
+                </div>
+            </div>
+
+            <!-- 教案管理页面 -->
+            <div class="content-page" id="lessonPlans">
+                <h2 style="margin-bottom: 20px;">教案管理</h2>
+                <div id="teacherLessonPlansList"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

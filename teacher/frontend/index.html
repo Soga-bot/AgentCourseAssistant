@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>初中数学智能教学系统 - 教师端</title>
+    <link rel="stylesheet" href="/teacher/frontend/assets/css/style.css">
+
+    <!-- MathJax 数学公式渲染库 -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+            },
+            startup: {
+                pageReady: () => {
+                    return MathJax.startup.defaultPageReady().then(() => {
+                        console.log('[MathJax] 数学公式渲染引擎已就绪');
+                    });
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script src="/teacher/frontend/assets/js/app.js?v=34"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 页面内容将通过 JavaScript 动态加载 -->
+    </div>
+</body>
+</html>

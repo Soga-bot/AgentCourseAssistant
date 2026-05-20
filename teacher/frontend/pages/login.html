@@ -1,0 +1,171 @@
+<!-- 登录/注册页面 - 着陆页 -->
+<div class="login-container">
+    <!-- 顶部导航栏 -->
+    <header class="login-header">
+        <nav>
+            <div class="logo">[AI] 初中数学智能教学系统</div>
+            <div class="nav-links">
+                <a href="#hero" data-scroll="hero">首页</a>
+                <a href="#features" data-scroll="features">功能介绍</a>
+                <a href="#about" data-scroll="about">关于我们</a>
+                <button class="btn btn-secondary" data-modal="loginModal">登录</button>
+                <button class="btn btn-primary" data-modal="registerModal">注册</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 主内容区域 - Hero Section -->
+    <div class="hero-section" id="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">AI 智能助教系统</h1>
+            <p class="hero-subtitle">让教育更智能，让学习更高效</p>
+            <p class="hero-description">基于大语言模型的初中数学智能教学平台，为教师和学生提供全方位的智能辅助</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary btn-large" data-modal="registerModal">立即开始</button>
+                <button class="btn btn-secondary btn-large" data-scroll="features">了解更多</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 功能特性区域 -->
+    <div class="features-section" id="features">
+        <div class="container">
+            <h2 class="section-title">核心功能</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon-large">📚</div>
+                    <h3>智能课程生成</h3>
+                    <p>支持多版本教材，自动生成符合教学需求的课程内容</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-large">🎬</div>
+                    <h3>视频讲解生成</h3>
+                    <p>自动生成课程讲解视频，包含语音讲解和动态演示</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-large">🤖</div>
+                    <h3>AI课程助手</h3>
+                    <p>学习过程中实时AI问答，智能解答疑问</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-large">📤</div>
+                    <h3>多格式导出</h3>
+                    <p>支持导出Word、PDF、LaTeX等多种格式的课件</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon-large">👥</div>
+                    <h3>班级管理</h3>
+                    <p>便捷的班级管理功能，轻松管理学生和课程分享</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 关于我们区域 -->
+    <div class="about-section" id="about">
+        <div class="container">
+            <h2 class="section-title">关于我们</h2>
+            <div class="about-content">
+                <p>AI智能助教系统致力于通过人工智能技术改善教育体验，为初中数学教学提供全方位的智能化支持。</p>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">教材版本</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">核心功能</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">AI</div>
+                        <div class="stat-label">智能生成</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <footer class="login-footer">
+        <div class="container">
+            <p>&copy; 2025 AI助教系统 | 让教育更智能，让学习更高效</p>
+        </div>
+    </footer>
+
+    <!-- 登录模态框 -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>登录系统</h2>
+                <span class="modal-close" data-close="loginModal">&times;</span>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">用户名</label>
+                    <input type="text" id="loginUsername" class="form-control"
+                           placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">密码</label>
+                    <input type="password" id="loginPassword" class="form-control"
+                           placeholder="请输入密码" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">登录</button>
+                <div class="modal-footer">
+                    <p>还没有账号？<a href="#" data-switch="loginModal,registerModal">立即注册</a></p>
+                    <p class="test-accounts">测试账号：教师(张老师/teacher123) | 学生(李同学/student123)</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>注册账号</h2>
+                <span class="modal-close" data-close="registerModal">&times;</span>
+            </div>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerRole">角色</label>
+                    <select id="registerRole" class="form-control form-select">
+                        <option value="student">学生</option>
+                        <option value="teacher">教师</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="registerUsername">用户名</label>
+                    <input type="text" id="registerUsername" class="form-control"
+                           placeholder="请输入用户名" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">密码</label>
+                    <input type="password" id="registerPassword" class="form-control"
+                           placeholder="请输入密码（至少6位）" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">邮箱（选填）</label>
+                    <input type="email" id="registerEmail" class="form-control"
+                           placeholder="用于找回密码">
+                </div>
+                <div id="studentFields">
+                    <div class="form-group">
+                        <label for="registerStudentId">学号 <span style="color: red;">*</span></label>
+                        <input type="text" id="registerStudentId" class="form-control"
+                               placeholder="请输入学号" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerClass">班级 <span style="color: red;">*</span></label>
+                        <input type="text" id="registerClass" class="form-control"
+                               placeholder="如：七年级1班" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">注册</button>
+                <div class="modal-footer">
+                    <p>已有账号？<a href="#" data-switch="registerModal,loginModal">立即登录</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+# ============================================
+# 初中数学双模式生成系统 - 依赖包列表
+# ============================================
+
+# Web 框架
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+python-dotenv>=1.0.0
+
+# HTTP 客户端
+httpx>=0.25.0            # LLM API 调用
+aiohttp>=3.9.0           # TTS 语音合成
+
+# 文档导出
+python-docx>=1.0.0       # Word 导出
+pypandoc>=1.12.0         # PDF 导出 (需要安装 pandoc)
+
+# 其他工具
+pydantic>=2.0.0
+aiofiles>=23.0.0

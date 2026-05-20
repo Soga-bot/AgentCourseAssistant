@@ -1,0 +1,90 @@
+@startuml AI课程视频生成系统架构
+
+!define RECTANGLE class
+
+skinparam backgroundColor #FEFEFE
+skinparam componentStyle rectangle
+skinparam ArrowColor #1976D2
+skinparam ComponentBackgroundColor #E3F2FD
+skinparam ComponentBorderColor #1976D2
+skinparam PackageBackgroundColor #FAFAFA
+skinparam PackageBorderColor #90A4AE
+
+package "用户层 (Frontend)" as USER_LAYER #E3F2FD {
+    component "教师端 Web 界面" as WebUI #BBDEFB {
+        [课程生成] as CourseGen
+        [课件预览] as Preview
+        [视频生成] as VideoGen
+        [教案管理] as Manage
+    }
+}
+
+package "API 层 (FastAPI)" as API_LAYER #FFF3E0 {
+    component "/api/course\n课程生成接口" as CourseAPI #FFE0B2
+    component "/api/video\n视频生成接口" as VideoAPI #FFE0B2
+    component "/api/preview\n预览接口" as PreviewAPI #FFE0B2
+}
+
+package "课程生成模块\n(CoursePipeline)" as COURSE_MODULE #FCE4EC {
+    component "PromptBuilder\n构建提示词" as PromptBuilder
+    component "CourseGenerator\nLLM 生成课程内容\n(8大板块, JSON格式)" as LLMGen
+    component "CourseStructurer\n结构化整理" as Structurer
+    PromptBuilder --> LLMGen
+    LLMGen --> Structurer
+}
+
+package "视频生成模块\n(SimplePipeline)" as VIDEO_MODULE #E8F5E9 {
+    component "FramePreprocessor\n帧预处理\n(0 LLM 调用)" as FramePre #C8E6C9
+    component "SimpleLaTeXGenerator\nLaTeX 生成\n(0 LLM 调用)" as LaTeXGen #C8E6C9
+    component "PDFCompiler\nTectonic 编译" as PDFCompile
+    component "PDF → PNG\npdf2image" as PDF2PNG
+    component "SpeechScript\n语音脚本生成" as SpeechGen
+    component "TTS + Video\n阿里云TTS + FFmpeg" as TTSVideo
+
+    FramePre --> LaTeXGen
+    LaTeXGen --> PDFCompile
+    PDFCompile --> PDF2PNG
+    PDF2PNG --> SpeechGen
+    SpeechGen --> TTSVideo
+}
+
+package "数据存储层" as DATA_LAYER #F3E5F5 {
+    database "SQLite Database\n(course_db, history_db, user_db)" as SQLite #E1BEE7
+    component "文件存储\n(output/, temp/, logs/)" as FileStorage #E1BEE7
+}
+
+package "外部服务" as EXTERNAL #EFEBE9 {
+    cloud "DeepSeek LLM\n课程内容生成" as DeepSeek #D7CCC8
+    cloud "阿里云 TTS\n语音合成" as AliyunTTS #D7CCC8
+    component "Tectonic\nPDF 编译器" as Tectonic #D7CCC8
+}
+
+' 用户层到API层
+WebUI --> CourseAPI
+WebUI --> VideoAPI
+WebUI --> PreviewAPI
+
+' API层到模块
+CourseAPI --> COURSE_MODULE
+VideoAPI --> VIDEO_MODULE
+PreviewAPI --> VIDEO_MODULE
+
+' 模块到数据层
+COURSE_MODULE --> SQLite
+COURSE_MODULE --> FileStorage
+VIDEO_MODULE --> SQLite
+VIDEO_MODULE --> FileStorage
+
+' 外部服务调用
+LLMGen ..> DeepSeek : LLM 调用
+TTSVideo ..> AliyunTTS : API 调用
+PDFCompile ..> Tectonic : 本地调用
+
+note right of VIDEO_MODULE
+  **核心优化**
+  帧预处理: 0次LLM
+  LaTeX生成: 0次LLM
+  总耗时: ~5分钟 (原30分钟)
+end note
+
+@enduml

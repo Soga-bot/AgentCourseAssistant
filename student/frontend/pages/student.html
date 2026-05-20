@@ -1,0 +1,109 @@
+<!-- 学生端页面 -->
+<div class="student-layout">
+    <div class="student-sidebar">
+        <div class="teacher-header">
+            <h2>[LEARNING] 学生端</h2>
+        </div>
+        <div class="teacher-nav">
+            <div class="nav-item active" data-target="courses">
+                <span class="nav-icon">[BOOK]</span>
+                <span class="nav-text">我的课程</span>
+            </div>
+            <div class="nav-item" data-target="join-class">
+                <span class="nav-icon">[GROUP]</span>
+                <span class="nav-text">加入班级</span>
+            </div>
+            <div class="nav-item" data-target="ai-tutor">
+                <span class="nav-icon">[ROBOT]</span>
+                <span class="nav-text">AI助教</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="student-main">
+        <div class="teacher-topbar">
+            <h1>学习中心</h1>
+            <div class="user-info">
+                <div class="user-name">同学</div>
+                <div class="user-avatar">S</div>
+                <button class="btn btn-secondary" id="logoutBtn" style="padding: 8px 16px;">退出</button>
+            </div>
+        </div>
+
+        <div class="student-content">
+            <!-- 我的课程页面 -->
+            <div class="content-page active" id="courses">
+                <h2 style="margin-bottom: 20px;">我的课程</h2>
+                <div id="coursesList" class="courses-grid"></div>
+            </div>
+
+            <!-- 加入班级页面 -->
+            <div class="content-page" id="join-class">
+                <h2 style="margin-bottom: 20px;">加入班级</h2>
+
+                <!-- 搜索班级 -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 16px;">搜索班级</h3>
+                    <form id="searchClassForm" style="display: flex; gap: 12px;">
+                        <input type="text" id="searchKeyword" class="form-control" placeholder="输入班级名称或年级搜索" style="flex: 1;">
+                        <button type="submit" class="btn btn-primary">搜索</button>
+                    </form>
+                </div>
+
+                <!-- 当前班级 -->
+                <div class="card" style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 16px;">我的班级</h3>
+                    <div id="myClassInfo"></div>
+                </div>
+
+                <!-- 搜索结果 -->
+                <div id="searchResults"></div>
+            </div>
+
+            <!-- AI助教聊天页面 -->
+            <div class="content-page" id="ai-tutor">
+                <h2 style="margin-bottom: 20px;">AI学习助教</h2>
+                <p style="color: #666; margin-bottom: 20px;">有什么数学问题不懂？随时问我！</p>
+
+                <!-- 聊天界面 -->
+                <div class="card" style="height: calc(100vh - 250px); display: flex; flex-direction: column;">
+                    <!-- 聊天消息区域 -->
+                    <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 16px; background: #f8f9fa; border-radius: 8px; margin-bottom: 16px; min-height: 300px;">
+                        <!-- 欢迎消息 -->
+                        <div class="chat-message agent-message">
+                            <div class="message-avatar">AI</div>
+                            <div class="message-content">
+                                <div class="message-text">同学你好！我是你的AI学习助教。我可以帮你：</div>
+                                <ul style="margin-top: 8px; padding-left: 20px;">
+                                    <li>讲解数学概念</li>
+                                    <li>分析解题方法</li>
+                                    <li>解答疑问</li>
+                                </ul>
+                                <div style="margin-top: 8px;">有什么问题随时问我吧！</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快捷问题按钮 -->
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                        <button class="btn btn-secondary quick-question" data-question="我不理解什么是勾股定理">勾股定理是什么？</button>
+                        <button class="btn btn-secondary quick-question" data-question="全等三角形怎么判定？">全等三角形判定</button>
+                        <button class="btn btn-secondary quick-question" data-question="一元一次方程怎么解？">一元一次方程解法</button>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div style="display: flex; gap: 12px;">
+                        <input type="text" id="chatInput" class="form-control" placeholder="输入你的问题..." style="flex: 1;">
+                        <button class="btn btn-primary" id="sendBtn">发送</button>
+                    </div>
+
+                    <!-- Agent状态 -->
+                    <div id="agentStatus" style="margin-top: 12px; font-size: 13px; color: #888;">
+                        <span class="status-indicator status-online"></span>
+                        <span>AI助教在线中</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

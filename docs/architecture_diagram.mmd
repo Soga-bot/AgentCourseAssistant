@@ -1,0 +1,64 @@
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e3f2fd', 'primaryTextColor': '#1565c0', 'primaryBorderColor': '#1976d2', 'lineColor': '#42a5f5', 'secondaryColor': '#fff3e0', 'tertiaryColor': '#e8f5e9'}}}%%
+
+flowchart TB
+    subgraph UserLayer["用户层 (Frontend)"]
+        WebUI["教师端 Web 界面"]
+        CourseGen["课程生成"]
+        Preview["课件预览"]
+        VideoGen["视频生成"]
+        Manage["教案管理"]
+        WebUI --> CourseGen
+        WebUI --> Preview
+        WebUI --> VideoGen
+        WebUI --> Manage
+    end
+
+    subgraph APILayer["API 层 (FastAPI)"]
+        CourseAPI["/api/course<br/>课程生成接口"]
+        VideoAPI["/api/video<br/>视频生成接口"]
+        PreviewAPI["/api/preview<br/>预览接口"]
+    end
+
+    subgraph CourseModule["课程生成模块 (CoursePipeline)"]
+        PromptBuilder["PromptBuilder<br/>构建提示词"]
+        LLMGen["CourseGenerator<br/>LLM 生成课程内容<br/>(8大板块, JSON格式)"]
+        Structurer["CourseStructurer<br/>结构化整理"]
+        PromptBuilder --> LLMGen --> Structurer
+    end
+
+    subgraph VideoModule["视频生成模块 (SimplePipeline)"]
+        FramePre["FramePreprocessor<br/>帧预处理<br/>(0 LLM 调用)"]
+        LaTeXGen["SimpleLaTeXGenerator<br/>LaTeX 生成<br/>(0 LLM 调用)"]
+        PDFCompile["PDFCompiler<br/>Tectonic 编译"]
+        PDF2PNG["PDF → PNG<br/>pdf2image"]
+        SpeechGen["SpeechScript<br/>语音脚本生成"]
+        TTSVideo["TTS + Video<br/>阿里云TTS + FFmpeg"]
+        FramePre --> LaTeXGen --> PDFCompile --> PDF2PNG --> SpeechGen --> TTSVideo
+    end
+
+    subgraph DataLayer["数据存储层"]
+        SQLite["SQLite Database<br/>(course_db, history_db, user_db)"]
+        FileStorage["文件存储<br/>(output/, temp/, logs/)"]
+    end
+
+    subgraph ExternalServices["外部服务"]
+        DeepSeek["DeepSeek LLM<br/>课程内容生成"]
+        AliyunTTS["阿里云 TTS<br/>语音合成"]
+        Tectonic["Tectonic<br/>PDF 编译器"]
+    end
+
+    UserLayer --> APILayer
+    APILayer --> CourseModule
+    APILayer --> VideoModule
+    CourseModule --> DataLayer
+    VideoModule --> DataLayer
+    CourseModule -.->|"LLM 调用"| DeepSeek
+    VideoModule -.->|"API 调用"| AliyunTTS
+    VideoModule -.->|"本地调用"| Tectonic
+
+    style UserLayer fill:#e3f2fd,stroke:#1976d2,color:#0d47a1
+    style APILayer fill:#fff3e0,stroke:#f57c00,color:#e65100
+    style CourseModule fill:#fce4ec,stroke:#c2185b,color:#880e4f
+    style VideoModule fill:#e8f5e9,stroke:#388e3c,color:#1b5e20
+    style DataLayer fill:#f3e5f5,stroke:#7b1fa2,color:#4a148c
+    style ExternalServices fill:#efebe9,stroke:#5d4037,color:#3e2723

@@ -1,0 +1,596 @@
+<!-- 学生端课程目录页面 -->
+<div class="course-catalog-page">
+    <!-- 顶部导航栏 -->
+    <div class="catalog-navbar">
+        <div class="navbar-left">
+            <button class="btn-back" id="backToCourses">
+                <span class="back-icon">←</span>
+                <span class="back-text">返回</span>
+            </button>
+            <span class="course-title" id="courseTitle">课程标题</span>
+        </div>
+        <div class="navbar-right">
+            <span class="user-badge">学生</span>
+        </div>
+    </div>
+
+    <!-- 课程信息区 -->
+    <div class="course-info-section">
+        <h1 class="info-title" id="infoTitle">课程标题</h1>
+        <div class="info-meta">
+            <span class="meta-item" id="infoGrade">年级</span>
+            <span class="meta-item" id="infoChapter">章节</span>
+            <span class="meta-count" id="infoChapterCount">0 个章节</span>
+        </div>
+    </div>
+
+    <!-- 章节列表区 -->
+    <div class="chapters-container">
+        <div class="chapters-header">
+            <h2>课程目录</h2>
+            <div class="progress-info">
+                <span>学习进度</span>
+                <div class="progress-bar-small">
+                    <div class="progress-fill-small" id="courseProgress" style="width: 0%"></div>
+                </div>
+                <span id="progressText">0%</span>
+            </div>
+        </div>
+
+        <!-- 章节卡片列表 -->
+        <div class="chapters-grid" id="chaptersList">
+            <!-- 动态加载章节卡片 -->
+        </div>
+    </div>
+</div>
+
+<style>
+/* 课程目录页面 - 整体布局 */
+.course-catalog-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #f8f9fa;
+}
+
+/* 顶部导航栏 */
+.catalog-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.btn-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #495057;
+    transition: all 0.2s;
+}
+
+.btn-back:hover {
+    background: #e9ecef;
+    border-color: #adb5bd;
+}
+
+.back-icon {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.course-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.user-badge {
+    padding: 6px 16px;
+    background: #e7f3ff;
+    color: #4a90e2;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* 课程信息区 */
+.course-info-section {
+    padding: 32px 24px 24px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.info-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0 0 16px 0;
+}
+
+.info-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    padding: 6px 14px;
+    background: #f3f4f6;
+    color: #6b7280;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.meta-count {
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* 章节列表区 */
+.chapters-container {
+    flex: 1;
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.chapters-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.chapters-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.progress-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.progress-bar-small {
+    width: 120px;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill-small {
+    height: 100%;
+    background: linear-gradient(90deg, #4a90e2, #67b26f);
+    border-radius: 4px;
+    transition: width 0.3s;
+}
+
+/* 章节卡片网格 */
+.chapters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
+}
+
+.chapter-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.chapter-card:hover {
+    border-color: #4a90e2;
+    box-shadow: 0 8px 24px rgba(74, 144, 226, 0.15);
+    transform: translateY(-4px);
+}
+
+.chapter-card.completed {
+    border-left: 4px solid #67b26f;
+}
+
+.chapter-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.chapter-number {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #4a90e2, #67b26f);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.chapter-number.completed {
+    background: #67b26f;
+}
+
+.chapter-info {
+    flex: 1;
+    margin-left: 12px;
+}
+
+.chapter-name {
+    font-size: 17px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 4px;
+}
+
+.chapter-desc {
+    font-size: 13px;
+    color: #9ca3af;
+    line-height: 1.5;
+}
+
+/* 内容类型标签 */
+.chapter-content-types {
+    display: flex;
+    gap: 8px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+}
+
+.content-type-tag {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.content-type-tag.has-video {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.content-type-tag.has-text {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.content-type-tag.has-pdf {
+    background: #fce7f3;
+    color: #9d174d;
+}
+
+.content-type-tag.downloadable {
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.content-type-tag.downloadable:hover {
+    background: #fbcfe8;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(157, 23, 77, 0.3);
+}
+
+.type-icon {
+    font-size: 14px;
+}
+
+/* 章节底部操作 */
+.chapter-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.chapter-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.status-dot.completed {
+    background: #67b26f;
+}
+
+.status-dot.pending {
+    background: #fbbf24;
+}
+
+.status-text {
+    color: #6b7280;
+}
+
+.chapter-action {
+    padding: 8px 20px;
+    background: linear-gradient(135deg, #4a90e2, #67b26f);
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.chapter-action:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .chapters-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-title {
+        font-size: 22px;
+    }
+
+    .chapters-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+</style>
+
+<script>
+// 课程目录页面脚本
+(function() {
+    let currentCourse = null;
+    let currentChapters = [];
+
+    // 返回课程列表
+    document.getElementById('backToCourses').addEventListener('click', function() {
+        window.location.hash = '#/student';
+        loadPage('/student/frontend/pages/student.html');
+    });
+
+    // 加载课程数据
+    async function loadCourseData(courseId) {
+        try {
+            console.log('[CourseCatalog] Loading course:', courseId);
+            const response = await apiRequest(`/api/student/course/${courseId}`);
+            console.log('[CourseCatalog] API response:', response);
+
+            // API返回格式: {success: true, course: {...}}
+            currentCourse = response.course || response;
+            console.log('[CourseCatalog] Course data:', currentCourse);
+
+            // 将整个课程作为一个章节显示
+            const sections = currentCourse.sections || {};
+            const allContent = Object.values(sections).join('\n\n');
+            const sectionTitles = Object.keys(sections).join('、');
+
+            currentChapters = [{
+                id: currentCourse.id,
+                title: currentCourse.chapter || currentCourse.title,
+                content: allContent,
+                description: `包含${Object.keys(sections).length}个小节：${sectionTitles}`,
+                completed: false,
+                duration: '45分钟',
+                hasVideo: true
+            }];
+            console.log('[CourseCatalog] Single chapter course:', currentChapters);
+
+            renderCourseInfo();
+            renderChaptersList();
+        } catch (error) {
+            console.error('加载课程失败:', error);
+            showToast('加载课程失败: ' + error.message, 'error');
+        }
+    }
+
+    // 渲染课程信息
+    function renderCourseInfo() {
+        // 更新顶部导航栏的课程标题
+        if (currentCourse.title) {
+            document.getElementById('courseTitle').textContent = currentCourse.title;
+            document.getElementById('infoTitle').textContent = currentCourse.title;
+        }
+
+        // 更新课程元信息
+        if (currentCourse.grade) {
+            document.getElementById('infoGrade').textContent = currentCourse.grade;
+        }
+        if (currentCourse.chapter) {
+            document.getElementById('infoChapter').textContent = currentCourse.chapter;
+        }
+        document.getElementById('infoChapterCount').textContent = `${currentChapters.length} 个章节`;
+
+        // 更新学习进度
+        const completedCount = currentChapters.filter(ch => ch.completed).length;
+        const progress = currentChapters.length > 0 ? (completedCount / currentChapters.length * 100) : 0;
+
+        document.getElementById('courseProgress').style.width = progress + '%';
+        document.getElementById('progressText').textContent = Math.round(progress) + '%';
+    }
+
+    // 渲染章节卡片列表
+    function renderChaptersList() {
+        const container = document.getElementById('chaptersList');
+        container.innerHTML = '';
+
+        if (currentChapters.length === 0) {
+            container.innerHTML = `
+                <div style="text-align: center; padding: 60px 20px; color: #9ca3af;">
+                    <div style="font-size: 48px; margin-bottom: 16px;">📚</div>
+                    <p>暂无章节内容</p>
+                </div>
+            `;
+            return;
+        }
+
+        currentChapters.forEach((chapter, index) => {
+            const card = document.createElement('div');
+            card.className = 'chapter-card' + (chapter.completed ? ' completed' : '');
+            card.innerHTML = `
+                <div class="chapter-header">
+                    <div class="chapter-number ${chapter.completed ? 'completed' : ''}">${index + 1}</div>
+                    <div class="chapter-info">
+                        <div class="chapter-name">${escapeHtml(chapter.title)}</div>
+                        <div class="chapter-desc">${escapeHtml(chapter.description || '')}</div>
+                    </div>
+                </div>
+
+                <div class="chapter-content-types">
+                    <span class="content-type-tag has-video">
+                        <span class="type-icon">🎬</span>
+                        <span>讲解视频</span>
+                    </span>
+                    <span class="content-type-tag has-pdf downloadable" data-chapter-id="${chapter.id}">
+                        <span class="type-icon">📖</span>
+                        <span>教材讲义</span>
+                    </span>
+                </div>
+
+                <div class="chapter-footer">
+                    <div class="chapter-status">
+                        <span class="status-dot ${chapter.completed ? 'completed' : 'pending'}"></span>
+                        <span class="status-text">${chapter.completed ? '已完成' : '未学习'}</span>
+                    </div>
+                    <button class="chapter-action" data-chapter-id="${chapter.id}">
+                        ${chapter.completed ? '复习' : '开始学习'}
+                    </button>
+                </div>
+            `;
+
+            // 绑定点击事件
+            const actionBtn = card.querySelector('.chapter-action');
+            actionBtn.addEventListener('click', () => {
+                handleStartLearning(currentCourse.id, chapter.id);
+            });
+
+            // 绑定教材讲义下载事件
+            const downloadBtn = card.querySelector('.downloadable');
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    downloadChapterContent(chapter.id, chapter.title, chapter.content);
+                });
+            }
+
+            container.appendChild(card);
+        });
+    }
+
+    // 下载章节内容
+    window.downloadChapterContent = function(chapterId, title, content) {
+        if (!content) {
+            showToast('该章节没有可下载的内容', 'warning');
+            return;
+        }
+
+        try {
+            // 创建Blob对象
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+
+            // 创建下载链接
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title}.txt`;
+            a.style.display = 'none';
+
+            // 触发下载
+            document.body.appendChild(a);
+            a.click();
+
+            // 清理
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showToast(`已下载: ${title}`, 'success');
+        } catch (error) {
+            console.error('下载失败:', error);
+            showToast('下载失败，请重试', 'error');
+        }
+    };
+
+    // HTML转义函数 - 转义HTML特殊字符，但保留LaTeX公式
+    function escapeHtml(text) {
+        if (!text) return '';
+
+        // 先保护LaTeX公式（支持所有 MathJax 识别的数学定界符）
+        const latexBlocks = [];
+        const mathRegex = /\$\$[\s\S]*?\$\$|\\\[.*?\\\]|\\$$.*?\\$$|\$[^\$\n]+?\$|\\begin\{[^}]+\}[\s\S]*?\\end\{[^}]+\}/g;
+        let protectedText = text.replace(mathRegex, (match) => {
+            latexBlocks.push(match);
+            return `%%LATEX_${latexBlocks.length - 1}%%`;
+        });
+
+        // 转义HTML特殊字符
+        const div = document.createElement('div');
+        div.textContent = protectedText;
+        let result = div.innerHTML;
+
+        // 恢复LaTeX公式
+        result = result.replace(/%%LATEX_(\d+)%%/g, (_, idx) => latexBlocks[parseInt(idx)]);
+
+        return result;
+    }
+
+    // 处理开始学习
+    window.handleStartLearning = function(courseId, chapterId) {
+        window.location.hash = `#/student/learning/${courseId}/${chapterId}`;
+        loadPage('/student/frontend/pages/course_learning.html');
+    };
+
+    // 初始化：从URL获取课程ID
+    function init() {
+        const hash = window.location.hash;
+        const match = hash.match(/\/student\/catalog\/([^\/]+)/);
+
+        if (match) {
+            const courseId = match[1];
+            loadCourseData(courseId);
+        }
+    }
+
+    init();
+})();
+</script>
